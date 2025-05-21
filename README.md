@@ -1,4 +1,3 @@
-# Proyecto_prestamos
 # Clasificación del Estado de Préstamos con Machine Learning
 
 ## Descripción
@@ -9,8 +8,11 @@ Este proyecto tiene como objetivo predecir si un préstamo será **pagado (PAIDO
 
 ## Dataset
 
-- **Nombre:** loan_train.csv
-- **Observaciones:** ~346 registros
+- **Nombre:**
+  - prestamos.csv (entrenamiento y prueba)
+  - prestamos2.csv (prueba fuera de la muestra)
+    
+- **Observaciones:** 346 registros para entrenamiento y prueba; 54 registros para evaluación fuera de la muestra.
 - **Variables destacadas:**
   - Principal
   - Plazo del préstamo (terms)
@@ -54,8 +56,8 @@ Todos los modelos fueron evaluados usando validación cruzada (`cv=5`) y optimiz
 
 ## Métricas de Evaluación
 
-- **F1-score:** Métrica principal utilizada para seleccionar el mejor modelo, dado el desbalance de clases.
-- **AUC ROC:** Evaluada como métrica secundaria para medir la capacidad de discriminación de los modelos.
+- **AUC ROC:** Fue la métrica prioritaria para seleccionar el mejor modelo, ya que mide la capacidad de discriminación entre clases, especialmente útil cuando las clases están desbalanceadas.
+- **F1-score:** Se utilizó como métrica complementaria para evaluar el balance entre precisión y recall.
 
 ---
 
@@ -63,36 +65,21 @@ Todos los modelos fueron evaluados usando validación cruzada (`cv=5`) y optimiz
 
 | Modelo               | F1-Score | AUC   |
 |----------------------|----------|-------|
-| Random Forest        | 0.88     | 0.31  |
-| K-Nearest Neighbors  | 0.85     | 0.56  |
-| SVM (kernel óptimo)  | 0.84     | 0.61  |
-| Árbol de Decisión    | 0.82     | 0.43  |
-| Regresión Logística  | 0.80     | 0.57  |
+| Random Forest        | 0.8889   | 0.6422 |
+| K-Nearest Neighbors  | 0.8142   | 0.6480 |
+| SVM (kernel óptimo)  | 0.8525   | 0.6231 |
+| **Árbol de Decisión**| 0.8000   | **0.6703** |
+| Regresión Logística  | 0.6813   | 0.6167 |
 
-**Insight:** Aunque el modelo Random Forest mostró el mejor F1-score, su baja AUC indica una mala calibración de probabilidades. En cambio, el SVM tuvo un AUC considerablemente mejor, lo cual lo posiciona como un candidato confiable para estimaciones probabilísticas.
+**Insight:** Aunque Random Forest obtuvo el mejor F1-score, el modelo con mayor **AUC** fue el **Árbol de Decisión**, por lo que fue seleccionado como el modelo final debido a su mejor capacidad para distinguir entre las dos clases.
 
 ---
 
 ## Visualizaciones
 
-- Curva ROC del mejor modelo seleccionado.
-- Comparación visual de F1-score entre modelos.
+- Curva ROC del modelo seleccionado.
 - Comparación visual de AUC entre modelos.
 
 ---
-
-## Predicción Manual
-
-Se incluye un ejemplo para predicción individual mediante inputs manuales:
-
-```python
-usuario = pd.DataFrame({
-    'Principal': [1000],
-    'terms': [30],
-    'age': [35],
-    'loan_duration': [30],
-    'education_College': [1],
-    'education_High School or Below': [0],
-    'education_Bechalor': [0],
-    'Gender_male': [1]
-})
+## Código
+Se puede explorar el código en GitHub: https://github.com/mpia87/Proyecto_prestamos/blob/88ecf264e22865127994e83fc3adabda2e2344c1/Proyecto_prestamos.ipynb
